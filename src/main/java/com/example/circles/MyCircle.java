@@ -9,7 +9,7 @@ public class MyCircle extends Circle implements Runnable {
     final Track track;
     final int ID;
     private double theta0; //kat poczatkowy
-    private double omega; //predkosc katowa
+    private double omega; //predkosc katowa czesc sprawdzam czy jestem
 
     MyCircle(int id, Track track) {
         rand = new Random();
