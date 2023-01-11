@@ -65,7 +65,7 @@ public class MyCircle extends Circle implements Runnable {
                     if (track.isCollision(ID, x, y)) {
                         theta0 = omega * i + theta0;
                         omega = 0;
-                        //updatePos(newX(i), newY(i));
+                        updatePos(x, y);
                     }
                     else updatePos(x, y);
                 }
