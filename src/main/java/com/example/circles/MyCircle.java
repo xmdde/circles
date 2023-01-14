@@ -5,29 +5,42 @@ import javafx.scene.shape.Circle;
 import java.util.Random;
 
 public class MyCircle extends Circle implements Runnable {
-    Random rand;
+    final Object locker;
+    final Random rand;
     final Track track;
     final int ID;
     private double theta0; //kat poczatkowy
-    private double omega; //predkosc katowa czesc sprawdzam czy jestem
+    private double omega; //predkosc katowa
+    private MyCircle predecessor;
 
-    MyCircle(int id, Track track) {
-        rand = new Random();
+    MyCircle(int id, Track track, double theta0, Random rand, Object locker) {
+        this.locker = locker;
+        this.rand = rand;
         this.setRadius(20);
         this.ID = id;
         this.track = track;
-        this.omega = rand.nextDouble() * 2;
-        System.out.println(omega);
-        setPrimaryPos();
+        this.omega = rand.nextDouble();
+        this.theta0 = theta0;
         this.setStroke(Color.BLACK);
-        this.setFill(Color.BLANCHEDALMOND);
+        setRandomColor();
+        setPrimaryPos();
         Thread thread = new Thread(this);
         thread.start();
     }
 
+    private void setRandomColor() {
+        float r = rand.nextFloat();
+        float g = rand.nextFloat();
+        float b = rand.nextFloat();
+        Color color = new Color(r, g, b,1.0);
+        this.setFill(color);
+    }
+
+    public void setPredecessor(MyCircle predecessor) {
+        this.predecessor = predecessor;
+    }
+
     private void setPrimaryPos() {
-        double factor = rand.nextDouble();
-        theta0 = factor * 2 * Math.PI;
         this.setCenterX(400 + 350 * Math.cos(theta0));
         this.setCenterY(400 + 350 * Math.sin(theta0));
     }
@@ -59,15 +72,18 @@ public class MyCircle extends Circle implements Runnable {
         while (true) {
             try {
                 Thread.sleep(50);
+
                 synchronized (track) {
                     double x = newX(i);
                     double y = newY(i);
-                    if (track.isCollision(ID, x, y)) {
+                    updatePos(x, y);
+
+                    if (this.intersects(predecessor.getBoundsInLocal())) {
                         theta0 = omega * i + theta0;
-                        omega = 0;
-                        updatePos(x, y);
+                        omega = 0; //predecessor.getOmega();
+                        //updatePos(x,y);
                     }
-                    else updatePos(x, y);
+                    //updatePos(x, y);
                 }
                 i += 0.05;
             } catch (InterruptedException e) {
