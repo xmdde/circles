@@ -72,18 +72,17 @@ public class MyCircle extends Circle implements Runnable {
         while (true) {
             try {
                 Thread.sleep(50);
-
+                double x = newX(i);
+                double y = newY(i);
+                Circle tmp = new Circle(x, y, 20);
                 synchronized (track) {
-                    double x = newX(i);
-                    double y = newY(i);
-                    updatePos(x, y);
-
-                    if (this.intersects(predecessor.getBoundsInLocal())) {
+                    if (tmp.intersects(predecessor.getBoundsInLocal())) { //this...
                         theta0 = omega * i + theta0;
-                        omega = 0; //predecessor.getOmega();
-                        //updatePos(x,y);
+                        omega = 0;
+                        //omega = predecessor.getOmega();
+                        updatePos(newX(i), newY(i));
                     }
-                    //updatePos(x, y);
+                    else updatePos(x, y);
                 }
                 i += 0.05;
             } catch (InterruptedException e) {

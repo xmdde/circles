@@ -52,10 +52,9 @@ public class Track {
         borderPane.getChildren().addAll(circles);
     }
 
-    public boolean isCollision(final int id, double x, double y) {
-        Circle tmpCircle = new Circle(x, y, 20);
+    public boolean isCollision(final int id, Circle circleToCheck) {
         for (int i = 0; i < NUM_OF_CIRCLES; i++) {
-            if (i != id && tmpCircle.intersects(circles[i].getBoundsInLocal())) {
+            if (i != id && circleToCheck.intersects(circles[i].getBoundsInLocal())) {
                 return true;
             }
         }
