@@ -75,6 +75,7 @@ public class MyCircle extends Circle implements Runnable {
                 double x = newX(i);
                 double y = newY(i);
                 Circle tmp = new Circle(x, y, 20);
+                /*
                 synchronized (track) {
                     if (tmp.intersects(predecessor.getBoundsInLocal())) { //this...
                         theta0 = omega * i + theta0;
@@ -83,6 +84,18 @@ public class MyCircle extends Circle implements Runnable {
                         updatePos(newX(i), newY(i));
                     }
                     else updatePos(x, y);
+                }
+                */
+                synchronized (track) {
+                    if (!tmp.intersects(predecessor.getBoundsInLocal())) { //this...
+                        updatePos(x, y);
+                    }
+                    else {
+                        theta0 = predecessor.getTheta0() - 0.12;
+                        //theta0 = omega * i + theta0;
+                        omega = predecessor.getOmega();
+                        updatePos(newX(i), newY(i));
+                    }
                 }
                 i += 0.05;
             } catch (InterruptedException e) {
