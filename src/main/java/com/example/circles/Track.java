@@ -42,23 +42,13 @@ public class Track {
 
     private void createCircles(BorderPane borderPane) {
         for (int i = 0; i < NUM_OF_CIRCLES; i++) {
-            circles[i] = new MyCircle(i, this, thetas[i], rand, locker);
-            //borderPane.getChildren().add(circles[i]);
+            circles[i] = new MyCircle(i, this, thetas[i], rand, locker, borderPane);
         }
         circles[NUM_OF_CIRCLES - 1].setPredecessor(circles[0]);
         for (int i = 0; i < NUM_OF_CIRCLES - 1; i++) {
             circles[i].setPredecessor(circles[i + 1]);
         }
         borderPane.getChildren().addAll(circles);
-    }
-
-    public boolean isCollision(final int id, Circle circleToCheck) {
-        for (int i = 0; i < NUM_OF_CIRCLES; i++) {
-            if (i != id && circleToCheck.intersects(circles[i].getBoundsInLocal())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private boolean primaryCollision(double theta0) {

@@ -1,10 +1,13 @@
 package com.example.circles;
 
+import javafx.scene.control.Slider;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import java.util.Random;
 
 public class MyCircle extends Circle implements Runnable {
+    final BorderPane borderPane;
     final Object locker;
     final Random rand;
     final Track track;
@@ -12,8 +15,10 @@ public class MyCircle extends Circle implements Runnable {
     private double theta0; //kat poczatkowy
     private double omega; //predkosc katowa
     private MyCircle predecessor;
+    //Slider slider;
 
-    MyCircle(int id, Track track, double theta0, Random rand, Object locker) {
+    MyCircle(int id, Track track, double theta0, Random rand, Object locker, BorderPane borderPane) {
+        this.borderPane = borderPane;
         this.locker = locker;
         this.rand = rand;
         this.setRadius(20);
@@ -69,35 +74,25 @@ public class MyCircle extends Circle implements Runnable {
     @Override
     public void run() {
         double i = 0.0;
+        long time = 50;
         while (true) {
             try {
-                Thread.sleep(50);
+                Thread.sleep(time);
                 double x = newX(i);
                 double y = newY(i);
                 Circle tmp = new Circle(x, y, 20);
-                /*
-                synchronized (track) {
-                    if (tmp.intersects(predecessor.getBoundsInLocal())) { //this...
-                        theta0 = omega * i + theta0;
-                        omega = 0;
-                        //omega = predecessor.getOmega();
-                        updatePos(newX(i), newY(i));
-                    }
-                    else updatePos(x, y);
-                }
-                */
+
                 synchronized (track) {
                     if (!tmp.intersects(predecessor.getBoundsInLocal())) { //this...
                         updatePos(x, y);
                     }
                     else {
-                        theta0 = predecessor.getTheta0() - 0.12;
-                        //theta0 = omega * i + theta0;
                         omega = predecessor.getOmega();
+                        theta0 = predecessor.getTheta0() - 0.12;
                         updatePos(newX(i), newY(i));
                     }
                 }
-                i += 0.05;
+                i += time / 1000.0;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
