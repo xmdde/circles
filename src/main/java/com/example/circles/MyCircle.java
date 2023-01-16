@@ -112,6 +112,7 @@ public class MyCircle extends Circle implements Runnable {
     /**
      * Funkcja run wykonująca się przez cały czas działania programu.
      * Co każde 50 milisekund odświeżana jest pozycja koła.
+     * Jeśli ma ono zetknąc się z poprzednikiem jest przez niego blokowane i zaczyna się poruszać z jego prędkością kątową.
      */
     @Override
     public void run() {
