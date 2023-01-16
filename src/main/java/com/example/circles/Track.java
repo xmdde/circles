@@ -1,15 +1,13 @@
 package com.example.circles;
 
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import java.util.Arrays;
 import java.util.Random;
 
-import static javafx.scene.paint.Color.BLACK;
-
 public class Track {
-    Object locker;
     Random rand;
     MyCircle[] circles;
     final int NUM_OF_CIRCLES;
@@ -18,10 +16,9 @@ public class Track {
     public Track(int num, BorderPane borderPane) {
         Circle track = new Circle(400, 400, 350);
         track.setFill(null);
-        track.setStroke(BLACK);
+        track.setStroke(Color.BLACK);
         borderPane.getChildren().add(track);
 
-        this.locker = new Object();
         this.rand = new Random();
         this.NUM_OF_CIRCLES = num;
         this.circles = new MyCircle[num];
@@ -42,7 +39,7 @@ public class Track {
 
     private void createCircles(BorderPane borderPane) {
         for (int i = 0; i < NUM_OF_CIRCLES; i++) {
-            circles[i] = new MyCircle(i, this, thetas[i], rand, locker, borderPane);
+            circles[i] = new MyCircle(i, this, thetas[i], rand, borderPane);
         }
         circles[NUM_OF_CIRCLES - 1].setPredecessor(circles[0]);
         for (int i = 0; i < NUM_OF_CIRCLES - 1; i++) {

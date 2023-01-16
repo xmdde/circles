@@ -1,6 +1,5 @@
 package com.example.circles;
 
-import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -8,18 +7,15 @@ import java.util.Random;
 
 public class MyCircle extends Circle implements Runnable {
     final BorderPane borderPane;
-    final Object locker;
     final Random rand;
     final Track track;
     final int ID;
     private double theta0; //kat poczatkowy
     private double omega; //predkosc katowa
     private MyCircle predecessor;
-    //Slider slider;
 
-    MyCircle(int id, Track track, double theta0, Random rand, Object locker, BorderPane borderPane) {
+    MyCircle(int id, Track track, double theta0, Random rand, BorderPane borderPane) {
         this.borderPane = borderPane;
-        this.locker = locker;
         this.rand = rand;
         this.setRadius(20);
         this.ID = id;

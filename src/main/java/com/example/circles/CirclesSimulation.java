@@ -15,7 +15,7 @@ public class CirclesSimulation extends Application {
         int n = 0;
         try {
             n = Integer.parseInt(getParameters().getUnnamed().get(0));
-            if (n <= 1 || n >= 20) {
+            if (n <= 1 || n > 30) {
                 throw new NumberFormatException("Wprowadzono błędne dane!");
             }
         } catch (NumberFormatException e) {
