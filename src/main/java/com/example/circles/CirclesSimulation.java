@@ -8,6 +8,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Klasa obsługująca symulację. Jeśli dane są poprawne, tworzy obiekt klasy Track zawierający podaną przez użytkownika liczbę kół.
+ */
 public class CirclesSimulation extends Application {
 
     @Override
